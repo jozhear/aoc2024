@@ -28,5 +28,19 @@ fn main() {
         i += 1;
         sum += difference;
     }
-    println!("{:?}",sum)
+    println!("{:?}",sum);
+
+    let mut secondanswer = 0;
+
+    for number in &leftlist{
+        let mut multiplier = 0;
+        for othernumber in &rightlist{
+            if number == othernumber {
+                multiplier +=1
+            }
+        }
+        let multipliednumber = number * multiplier;
+        secondanswer += multipliednumber;
+    }
+    println!("{:?}",secondanswer);
 }
