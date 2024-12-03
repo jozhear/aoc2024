@@ -9,7 +9,6 @@ use std::fs;
 fn main() {
     let data = fs::read_to_string("day2.txt");
 
-    let mut badrows: Vec<Vec<i32>> = Vec::new();
     let mut allrows: Vec<Vec<i32>> = Vec::new();
     let mut rowints: Vec<i32>  = Vec::new();
     let mut i = 0;
@@ -37,7 +36,6 @@ fn main() {
                     i+=1;
                 }
                 else {
-                    badrows.push(row.clone());
                     break;
                 }
                 if i + 1 == row.len(){
