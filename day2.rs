@@ -57,9 +57,11 @@ fn main() {
             let piece = duperow.remove(z);
             let mut sortedrow = duperow.clone();
             sortedrow.sort();
-            if *duperow == sortedrow{
+            let mut reverserow = sortedrow.clone();
+            reverserow.reverse();
+            if *duperow == sortedrow || *duperow == reverserow{
                 'inner: for entry in &duperow[..duperow.len() - 1]{
-                    if entry - &duperow[i+1] >= -3 && entry - &duperow[i+1] <= -1{
+                    if entry - &duperow[i+1] >= -3 && entry - &duperow[i+1] <= -1 || entry - &duperow[i+1] <=3 && entry - &duperow[i+1] >= 1{
                         i+=1;
                     }
                     else {
@@ -71,23 +73,6 @@ fn main() {
                     }
                 }
             }
-            sortedrow.reverse();
-            if *duperow == sortedrow{
-                'inner: for entry in &duperow[..duperow.len() - 1]{
-                    if entry - &duperow[i+1] <= 3 && entry - &duperow[i+1] >= 1{
-                        i+=1;
-                    }
-                    else {
-                        break 'inner;
-                    }
-                    if i + 1== duperow.len(){
-                        newreports+=1;
-                        break 'outer;
-                    }
-                }
-            }  
-            println!("{:?}",duperow);
-            println!("{:?}",i);
             z+=1;
         }      
     }
