@@ -4,6 +4,9 @@
 
 // Ah well, going to keep learning!!
 
+// 20241203; truncated the code to only do one check on the if rows are sorted or not instead of two separate. 
+// next order of business is to fix the for loop in the second part answer.
+
 use std::fs;
 
 fn main() {
