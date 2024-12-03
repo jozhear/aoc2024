@@ -29,24 +29,11 @@ fn main() {
     for row in &allrows{
         let mut sortedrow = row.clone();
         sortedrow.sort();
-        if *row == sortedrow{
+        let mut reverserow = sortedrow.clone();
+        reverserow.reverse();
+        if *row == sortedrow || *row == reverserow{
             for entry in &row[..row.len() - 1]{
-                if entry - &row[i+1] >= -3 && entry - &row[i+1] <= -1{
-                    i+=1;
-                }
-                else {
-                    badrows.push(row.clone());
-                    break;
-                }
-                if i + 1 == row.len(){
-                    safereports+=1;
-                }
-            }
-        }
-        sortedrow.reverse();
-        if *row == sortedrow{
-            for entry in &row[..row.len() - 1]{
-                if entry - row[i+1] <= 3 && entry - row[i+1] >= 1{
+                if entry - &row[i+1] >= -3 && entry - &row[i+1] <= -1 || entry - &row[i+1] <=3 && entry - &row[i+1] >= 1{
                     i+=1;
                 }
                 else {
@@ -107,3 +94,4 @@ fn main() {
     println!{"{:?}",safereports};
     println!{"{:?}",newreports};
 }
+
