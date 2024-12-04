@@ -7,8 +7,6 @@ fn main() {
         .expect("Should have been able to read the file");
     // define the regex looking for mul(x,y)
     let re = Regex::new(r"mul\(\d+,\d+\)").unwrap();
-    let domultiply = Regex::new(r"do\(\)");
-    let notmultiply = Regex::new(r"don\'t\(\)");
     // second re is for part 2. This regex combines what's needed for part 1 as well as the do() and don't().
     let secondre = Regex::new(r"mul\(\d+,\d+\)|do\(\)|don\'t\(\)").unwrap();
     let leftproduct = Regex::new(r"\d+").unwrap();
