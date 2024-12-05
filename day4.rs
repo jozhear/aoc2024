@@ -13,9 +13,9 @@ fn main() {
         .collect();
 
     let movements = [[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1],[0,1],[1,1]];
-    let mut x = 0;
-    let mut y = 0;
-    let mut z = 0;
+    let mut x: i32 = 0;
+    let mut y: i32 = 0;
+    let mut z: usize = 0;
     let mut answersum = 0;
     let letters = ["X","M","A","S"];
     for row in &rows{
@@ -63,4 +63,41 @@ fn main() {
         x = 0;
     }
     println!("{:?}",answersum);
-}
+    // y and x are 1 because A is always 1 away from edges for this to work
+    y = 1;
+    x = 1;
+    let mut secondanswer: i32 = 0;
+    // same reason as above, not interested in the edge rows or columns
+    for row in &rows[1..(&rows.len() -1)]{
+        for character in &row[1..(&rows.len() -1)]{
+            // find only A
+            if character == "A"{
+                // define the surrounding characters, making them into a list
+                let mut cornersteps = [
+                    rows[(y-1) as usize][(x+1) as usize].clone(),
+                    rows[(y-1) as usize][(x-1) as usize].clone(),
+                    rows[(y+1) as usize][(x-1) as usize].clone(),
+                    rows[(y+1) as usize][(x+1) as usize].clone()
+                    ];
+                    println!("{:?}",cornersteps);
+                    if cornersteps == ["M","M","S","S"]{
+                        
+                        secondanswer+=1;
+                    } 
+                    else if cornersteps == ["S","S","M","M"]{
+                        secondanswer+=1;
+                    }
+                    else if cornersteps == ["M","S","S","M"]{
+                        secondanswer+=1;
+                    }
+                    else if cornersteps == ["S","M","M","S"]{
+                        secondanswer+=1;
+                    }
+                }
+                x+=1;
+            }
+            y+=1;
+            x = 1;
+        }
+    println!("{:?}",secondanswer);
+    }
