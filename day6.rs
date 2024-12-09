@@ -1,3 +1,6 @@
+// 6a was so easy, but 6b was very hard. I had the right idea, but a few problems occured preventing me from getting right answer.
+// It also takes a long time to run 6b. So I got the answer, but this is a prime candidate for cleanup in a few days.
+
 use std::fs;
 
 fn main() {
@@ -17,6 +20,7 @@ fn main() {
     let mut obstaclevec: Vec<Vec<i32>> = Vec::new();
     let mut guardvec: Vec<i32> = Vec::new();
     let mut stepvec: Vec<Vec<i32>> = Vec::new();
+    let mut secondstepvec: Vec<Vec<i32>> = Vec::new();
     let movements = [[0,-1],[1,0],[0,1],[-1,0]];
     let mut x: i32 = 0;
     let mut y: i32 = 0;
@@ -38,15 +42,13 @@ fn main() {
         x = 0;
         y +=1;
     }
+    let mut originalvec = guardvec.clone();
     let rowlength = newdata[0].len();
     let columnlength = newdata.len();
     x = 0;
     y = 0;
     let mut z: usize = 0;
-    // need to loop. this will go on for a while. guardmoving is a bool that lets us know when to stop.
-    // we only ever check for z % 4 so that we don't have to worry about any complicated logic or 
-    // going past the index of the movements var. Just have to put the movements in the right order (up is MINUS in this case)
-    // if stepvec doesn't contain the guard's current position, push it. Then, count the length of step vec to get the answer.
+    // need to loop. this will go on for a while
     let mut guardmoving = true;
     while guardmoving {
         let nextstep: Vec<i32> = guardvec.iter().zip(movements[z % 4].iter()).map(|(&a,&b)| a+b).collect();
@@ -60,6 +62,65 @@ fn main() {
         if !stepvec.contains(&guardvec){
             stepvec.push(guardvec.clone());
         }
+        guardvec.push((z % 4) as i32);
+        secondstepvec.push(guardvec.clone());
+        guardvec.pop();
+
     }
+    z = 0;
+    originalvec.push(z as i32);
+    let resetvec = originalvec.clone();
+    // B;
+    let mut t = 0;
+    let mut obstructions: i32 = 0;
+    let mut newobstacledata = obstaclevec.clone();
+    let mut newstepvec: Vec<Vec<i32>> = Vec::new();
+    let mut oob = stepvec.pop();
+    println!("{:?}",originalvec);
+    // iterate across the steps from the first question. The guard cannot reach an obstacle not on our previous route, unless we add the obstacle.
+    // There is no need to go across the ENTIRE board as the guard can't reach those places anyway.
+    for piece in &stepvec{
+        // Create a new obstacle, and push it to our list of known obstacles. Then, run the same logic as before.
+        let mut createdobstacle: Vec<i32> = Vec::new();
+        createdobstacle.push(piece[0]);
+        createdobstacle.push(piece[1]);
+        newobstacledata.push(createdobstacle.clone());
+        let mut guardmoving = true;
+        while guardmoving {
+            // determine the coords of the next step.
+            let mut nextstep: Vec<i32> = originalvec.iter().zip(movements[z % 4].iter()).map(|(&a,&b)| a+b).collect();
+            // if you meet an obstacle, turn 90 degrees to the right. if you go out of bounds, break out of the while loop
+            // and place the next obstacle in a different location.
+            while newobstacledata.contains(&nextstep){
+                z += 1;
+                nextstep = originalvec.iter().zip(movements[z % 4].iter()).map(|(&a,&b)| a+b).collect();
+            } if nextstep[0] < 0 || nextstep[0] > rowlength as i32 || nextstep[1] < 0 || nextstep[1] > columnlength as i32{
+                newstepvec.clear();
+                break
+            } 
+            // make the movement; append the piece to the vector of current steps for this round, along with the direction;
+            // if those coordinates and that direction are on the list, break out of the loop, adding one to let mut i32 obstructions (our answer).
+            originalvec[0] = originalvec[0] + movements[z % 4][0];
+            originalvec[1] = originalvec[1] + movements[z % 4][1];
+            originalvec[2] = (z % 4) as i32;
+            if !newstepvec.contains(&originalvec){
+                newstepvec.push(originalvec.clone());
+            } else if newstepvec.contains(&originalvec) {
+                obstructions += 1;
+                println!("{:?}",obstructions);
+                newstepvec.clear();
+                break;
+            }
+        }
+        z = 0;
+        t +=1;
+        println!("{:?}",t);
+        println!("{:?}",obstructions);
+        newobstacledata.pop();
+        createdobstacle.clear();
+        originalvec = resetvec.clone();
+    }
+    stepvec.push(oob.expect("Couldn't add oob piece"));
     println!("{:?}",stepvec.len());
+    println!("{:?}",obstructions);
 }
