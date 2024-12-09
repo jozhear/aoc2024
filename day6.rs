@@ -107,15 +107,11 @@ fn main() {
                 newstepvec.push(originalvec.clone());
             } else if newstepvec.contains(&originalvec) {
                 obstructions += 1;
-                println!("{:?}",obstructions);
                 newstepvec.clear();
                 break;
             }
         }
         z = 0;
-        t +=1;
-        println!("{:?}",t);
-        println!("{:?}",obstructions);
         newobstacledata.pop();
         createdobstacle.clear();
         originalvec = resetvec.clone();
