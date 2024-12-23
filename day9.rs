@@ -93,10 +93,6 @@ fn main() {
             secondendpiece -= 2;
         } index = 0;
      }
-    //  }
-         //blockid += 1;
-    // enumerate through the vec of strings, multiplying the index (field) by the blocksize as an i32. 
-    // keep adding, and this is what gives us our answer.
     for (fileid,blocksize) in answerstring.iter().enumerate() {
         answersum += fileid as i128 * blocksize.parse::<i128>().expect("Couldn't do it");
     }
